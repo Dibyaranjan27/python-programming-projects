@@ -56,8 +56,13 @@ The application will run at http://127.0.0.1:5000/.
 ---
 
 ## 🖥️ Example Output
-<img src="./static/flask-todo-app.png" alt="Student Management System" width="500" style="justify-content:center">
-<img src="./static/edit-task.png" alt="Student Management System" width="500">
+<p align="center">
+  <img src="./static/flask-todo-app.png" alt="To-Do App Screenshot" width="500">
+</p>
+
+<p align="center">
+  <img src="./static/edit-task.png" alt="Edit Task Screenshot" width="500">
+</p>
 
 ---
 
