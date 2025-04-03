@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1>Hello Dev,</h1>
+    <p>These are your ongoing tasks currently</p>
+
+    <!-- Task Creation Form -->
+    <form action="{{ url_for('add_task') }}" method="POST" class="task-form">
+        <input type="text" name="content" placeholder="Enter task" required>
+
+        <!-- Status Dropdown (Fixed Values) -->
+        <select name="status">
+            <option value="Pending">Pending</option>
+            <option value="Today">Today</option>
+            <option value="Upcoming">Upcoming</option>
+            <option value="Completed">Completed</option>
+        </select>
+
+        <!-- Priority Dropdown -->
+        <select name="priority">
+            <option value="Low">Low</option>
+            <option value="Medium" selected>Medium</option>
+            <option value="High">High</option>
+        </select>
+
+        <button type="submit">Add Task</button>
+    </form>
+
+    <!-- Filters -->
+    <div class="filters">
+        <a href="{{ url_for('filter_tasks', category='all') }}" 
+           class="{% if category == 'all' %}active{% endif %}">All</a> |
+        <a href="{{ url_for('filter_tasks', category='today') }}" 
+           class="{% if category == 'today' %}active{% endif %}">Today</a> |
+        <a href="{{ url_for('filter_tasks', category='upcoming') }}" 
+           class="{% if category == 'upcoming' %}active{% endif %}">Upcoming</a> |
+        <a href="{{ url_for('filter_tasks', category='completed') }}" 
+           class="{% if category == 'completed' %}active{% endif %}">Completed</a> |
+        <a href="{{ url_for('filter_tasks', category='pending') }}" 
+           class="{% if category == 'pending' %}active{% endif %}">Pending</a>
+    </div>
+    
+
+    <!-- Task Table -->
+<table>
+    <tr>
+        <th>Select</th>
+        <th>Task</th>
+        <th>Status</th>
+        <th>Priority</th>
+        <th>Actions</th>
+    </tr>
+
+    {% if tasks.items %}
+        {% for task in tasks.items %}
+        <tr>
+            <td>
+                <input type="checkbox" class="status-checkbox" 
+                    data-id="{{ task.id }}" 
+                    {% if task.status == "Completed" %}checked{% endif %}>
+            </td>
+            <td class="task-content"><div class="text-wrap">{{ task.content }}</div></td>
+            <td class="task-status">{{ task.status }}</td>
+
+            <td>
+                {% if task.priority == "High" %}
+                    <span class="priority-high">High</span>
+                {% elif task.priority == "Medium" %}
+                    <span class="priority-medium">Medium</span>
+                {% else %}
+                    <span class="priority-low">Low</span>
+                {% endif %}
+            </td>
+            <td>
+                <a href="{{ url_for('edit_task', id=task.id) }}" class="btn btn-edit">Edit</a>
+                <a href="{{ url_for('delete_task', id=task.id) }}" class="btn btn-delete" onclick="return confirm('Are you sure?')">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <!-- Display No Tasks Message -->
+        <tr>
+            <td colspan="5" class="no-tasks-message">
+                {% if category == 'all' %}
+                    No tasks available. Add a new task to get started!
+                {% elif category == 'today' %}
+                    No tasks scheduled for today. Plan your tasks!
+                {% elif category == 'upcoming' %}
+                    No upcoming tasks. Add something to your to-do list!
+                {% elif category == 'completed' %}
+                    No completed tasks yet. Keep going!
+                {% elif category == 'pending' %}
+                    No pending tasks. You're all caught up!
+                {% else %}
+                    No tasks found.
+                {% endif %}
+            </td>
+        </tr>
+    {% endif %}
+</table>
+
+
+    <!-- Pagination (Fixed to Maintain Filters) -->
+    <!-- Pagination (Only Show If More Than One Page) -->
+{% if tasks.pages > 1 %}
+<div class="pagination">
+    {% if tasks.has_prev %}
+        <a href="{{ url_for('index', page=tasks.prev_num) }}" class="page-link prev">&lt; Previous</a>
+    {% endif %}
+
+    {% for num in tasks.iter_pages(left_edge=2, right_edge=2, left_current=1, right_current=2) %}
+        {% if num %}
+            {% if num == tasks.page %}
+                <span class="page-link active">{{ num }}</span>
+            {% else %}
+                <a href="{{ url_for('index', page=num) }}" class="page-link">{{ num }}</a>
+            {% endif %}
+        {% else %}
+            <span class="dots">...</span>
+        {% endif %}
+    {% endfor %}
+
+    {% if tasks.has_next %}
+        <a href="{{ url_for('index', page=tasks.next_num) }}" class="page-link next">Next &gt;</a>
+    {% endif %}
+</div>
+{% endif %}
+
+    
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".status-checkbox").forEach(checkbox => {
+            checkbox.addEventListener("change", function () {
+                let taskId = this.getAttribute("data-id");
+                let isChecked = this.checked;
+                let statusCell = this.closest("tr").querySelector(".task-status");
+
+                statusCell.textContent = "Updating...";
+
+                fetch(`/update_status/${taskId}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ completed: isChecked })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        statusCell.textContent = isChecked ? "Completed" : "Pending";
+                    } else {
+                        alert("Error updating status.");
+                        checkbox.checked = !isChecked;
+                    }
+                })
+                .catch(error => {
+                    alert("Network error.");
+                    checkbox.checked = !isChecked;
+                });
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Task</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Edit Task</h1>
+        <p>Modify your task details below.</p>
+
+        {% if task %}
+            <form action="{{ url_for('update_task', id=task.id) }}" method="POST" class="edit-task-form-horizontal">
+                <input type="text" name="content" value="{{ task.content }}" required>
+
+                <select name="status">
+                    <option value="Pending" {% if task.status == "Pending" %}selected{% endif %}>Pending</option>
+                    <option value="Today" {% if task.status == "Today" %}selected{% endif %}>Today</option>
+                    <option value="Upcoming" {% if task.status == "Upcoming" %}selected{% endif %}>Upcoming</option>
+                    <option value="Completed" {% if task.status == "Completed" %}selected{% endif %}>Completed</option>
+                </select>
+
+                <select name="priority">
+                    <option value="Low" {% if task.priority == "Low" %}selected{% endif %}>Low</option>
+                    <option value="Medium" {% if task.priority == "Medium" %}selected{% endif %}>Medium</option>
+                    <option value="High" {% if task.priority == "High" %}selected{% endif %}>High</option>
+                </select>
+
+
+                <button type="submit" class="btn">Save</button>
+            </form>
+        {% else %}
+            <p class="no-task-message">Task not found. It may have been deleted.</p>
+        {% endif %}
+
+        <a href="{{ url_for('index') }}" class="back-link">← Back to Task List</a>
+    </div>
+
+</body>
+</html>

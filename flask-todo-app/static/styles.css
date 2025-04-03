@@ -1,0 +1,294 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #fdf8e5;
+    margin: 40px;
+    /* text-align: center; */
+}
+
+/* Container */
+.container {
+    max-width: 900px;
+    background: #fffdf5;
+    padding: 20px;
+    margin: auto;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+/* Title */
+h1 {
+    font-size: 34px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+p {
+    color: gray;
+    margin-bottom: 30px;
+}
+
+/* Task Form */
+.task-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.task-form input, 
+.task-form select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    color: gray;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+/* Buttons */
+button {
+    background-color: #fdf8e5;
+    color: gray;
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #f9f2d7;
+    color: black;
+
+}
+
+//* Filters Navbar */
+.filters {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.filters a {
+    position: relative;
+    text-decoration: none;
+    color: gray;
+    margin: 0 15px;
+    padding: 5px 0;
+    transition: color 0.3s ease-in-out;
+}
+
+/* Underline effect on hover */
+.filters a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 0;
+    height: 3px;
+    background-color: #000000; /* Change this to match your theme color */
+    transition: width 0.3s ease-in-out;
+}
+
+.filters a:hover {
+    color: black;
+}
+
+.filters a:hover::after {
+    width: 100%;
+}
+
+.filters a.active {
+    font-weight: bold;
+    color: #000000;
+}
+
+.text-wrap {
+    max-width: 200px;  /* Adjust width as needed */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
+.no-tasks-message {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #555;
+    padding: 15px;
+}
+
+
+/* Task Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Header Styling */
+th {
+    background: #f8eec7;
+    font-weight: bold;
+}
+
+/* Row Hover */
+tr:hover {
+    background: #f9f2d7;
+}
+
+/* Priority Labels */
+.priority-low {
+    background: #b4f1b0;
+    color: #42833d;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.priority-medium {
+    background: #f7e59c;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.priority-high {
+    background: #f59898;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+/* Buttons */
+.btn {
+    text-decoration: none;
+    padding: 5px 10px;
+    margin: 3px;
+    border-radius: 5px;
+    color: white;
+    font-size: 14px;
+}
+
+.btn-edit {
+    background: #ffffff;
+    color: gray;
+    border: 1px solid #ccc;
+}
+
+.btn-delete {
+    background: #ffffff;
+    color: gray;
+    border: 1px solid #ccc;
+}
+
+.btn-edit:hover {
+    background: #ffc107;
+    color: white;
+}
+
+.btn-delete:hover {
+    background: #e74c3c;
+    color: white;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.page-link {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    font-size: 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #333;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.page-link:hover {
+    background: #ddd;
+}
+
+.page-link.active {
+    font-weight: bold;
+    color: #948b8b;
+    font-size: 16px;
+}
+
+.prev, .next {
+    color: gray;
+    border: none;
+}
+
+.dots {
+    padding: 6px 12px;
+    color: #777;
+}
+
+/* Edit Task Form - Horizontal Layout */
+.edit-task-form-horizontal {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.edit-task-form-horizontal input,
+.edit-task-form-horizontal select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #fdf8e5;
+    color: gray;
+}
+
+.edit-task-form-horizontal input{
+    width: 60%;
+}
+
+/* Save Button */
+.edit-task-form-horizontal button {
+    background-color: #fdf8e5;
+    color: gray;
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.edit-task-form-horizontal button:hover {
+    background-color: #f9f2d7;
+    color: black;
+}
+
+/* Back Link */
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+    text-decoration: none;
+    color: gray;
+}
+
+.back-link:hover {
+    color: black;
+}
